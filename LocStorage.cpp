@@ -209,6 +209,41 @@ bool LocStorage::EmergencyOptionGet(void)
 
 /***********************************************************************************************************************
  */
+void LocStorage::PulseSwitchInvertSet(uint8_t Invert)
+{
+#if APP_CFG_UC == APP_CFG_UC_STM32
+#error not added yet!
+#elif APP_CFG_UC == APP_CFG_UC_ESP8266
+    EEPROM.write(EepCfg::PulseSwitchInvertAddress, Invert);
+    EEPROM.commit();
+#endif
+}
+
+/***********************************************************************************************************************
+ */
+bool LocStorage::PulseSwitchInvertGet()
+{
+    bool Result = false;
+    uint8_t Invert;
+
+#if APP_CFG_UC == APP_CFG_UC_STM32
+#error not added yet!
+#elif APP_CFG_UC == APP_CFG_UC_ESP8266
+    Invert    = EEPROM.read(EepCfg::PulseSwitchInvertAddress);
+#endif
+
+    /* Check AC option.*/
+    switch (Invert)
+    {
+    case 0: Result = false; break;
+    case 1: Result = true; break;
+    default: Result = false; break;
+    }
+    return (Result);
+}
+
+/***********************************************************************************************************************
+ */
 uint8_t LocStorage::NumberOfLocsGet()
 {
     uint8_t NumOfLocs;
@@ -216,7 +251,7 @@ uint8_t LocStorage::NumberOfLocsGet()
 #if APP_CFG_UC == APP_CFG_UC_STM32
     NumOfLocs = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::locLibEepromAddressNumOfLocs));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
-    NumOfLocs       = EEPROM.read(EepCfg::locLibEepromAddressNumOfLocs);
+    NumOfLocs = EEPROM.read(EepCfg::locLibEepromAddressNumOfLocs);
 #endif
     return (NumOfLocs);
 }
@@ -304,7 +339,7 @@ void LocStorage::SelectedLocIndexStore(uint8_t Index)
  */
 uint8_t LocStorage::SelectedLocIndexGet()
 {
-    uint8_t Index;
+    uint8_t Index = 255;
 
 #if APP_CFG_UC == APP_CFG_UC_APP_CFG_UC_ESP8266
     EEPROM.get(EepCfg::SelectedLocAddress, Index);

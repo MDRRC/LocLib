@@ -58,6 +58,16 @@ public:
     bool EmergencyOptionGet(void);
 
     /**
+     * Set (1) Invert pulse switch or default (0) turn direction.
+     */
+    void PulseSwitchInvertSet(uint8_t Invert);
+
+    /**
+     * Get pulse switch invert.
+     */
+    bool PulseSwitchInvertGet();
+
+    /**
      * Get number of stored locomotives.
      */
     uint8_t NumberOfLocsGet();

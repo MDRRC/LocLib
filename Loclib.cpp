@@ -489,6 +489,7 @@ bool LocLib::RemoveLoc(uint16_t address)
             if (LocIndex < m_NumberOfLocs)
             {
                 m_LocStorage.LocDataGet(&m_LocLibData, LocIndex);
+                m_ActualSelectedLoc = LocIndex;
             }
             else
             {
