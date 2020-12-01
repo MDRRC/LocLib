@@ -212,7 +212,7 @@ bool LocStorage::EmergencyOptionGet(void)
 void LocStorage::PulseSwitchInvertSet(uint8_t Invert)
 {
 #if APP_CFG_UC == APP_CFG_UC_STM32
-#error not added yet!
+    i2c_eeprom_write_byte(I2CAddressAT24C256, EepCfg::PulseSwitchInvertAddress, (byte)(Invert));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
     EEPROM.write(EepCfg::PulseSwitchInvertAddress, Invert);
     EEPROM.commit();
@@ -227,7 +227,7 @@ bool LocStorage::PulseSwitchInvertGet()
     uint8_t Invert;
 
 #if APP_CFG_UC == APP_CFG_UC_STM32
-#error not added yet!
+    Invert = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::PulseSwitchInvertAddress));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
     Invert    = EEPROM.read(EepCfg::PulseSwitchInvertAddress);
 #endif
