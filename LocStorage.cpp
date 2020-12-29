@@ -229,7 +229,7 @@ bool LocStorage::PulseSwitchInvertGet()
 #if APP_CFG_UC == APP_CFG_UC_STM32
     Invert = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::PulseSwitchInvertAddress));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
-    Invert    = EEPROM.read(EepCfg::PulseSwitchInvertAddress);
+    Invert  = EEPROM.read(EepCfg::PulseSwitchInvertAddress);
 #endif
 
     /* Check AC option.*/
@@ -240,6 +240,43 @@ bool LocStorage::PulseSwitchInvertGet()
     default: Result = false; break;
     }
     return (Result);
+}
+
+/***********************************************************************************************************************
+ */
+bool LocStorage::AutoOffGet()
+{
+    bool Result = false;
+    uint8_t AutoOff;
+#if APP_CFG_UC == APP_CFG_UC_STM32
+    Invert = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress));
+#elif APP_CFG_UC == APP_CFG_UC_ESP8266
+    AutoOff = EEPROM.read(EepCfg::AutoOffAddress);
+#endif
+
+    /* Check AC option.*/
+    switch (AutoOff)
+    {
+    case 0: Result = false; break;
+    case 1: Result = true; break;
+    default:
+        // When not 0 or 1 default EEPROM data and set auto off on.
+        Result = true;
+        break;
+    }
+    return (Result);
+}
+
+/***********************************************************************************************************************
+ */
+void LocStorage::AutoOffSet(uint8_t AutoOff)
+{
+#if APP_CFG_UC == APP_CFG_UC_STM32
+    i2c_eeprom_write_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress, (byte)(Invert));
+#elif APP_CFG_UC == APP_CFG_UC_ESP8266
+    EEPROM.write(EepCfg::AutoOffAddress, AutoOff);
+    EEPROM.commit();
+#endif
 }
 
 /***********************************************************************************************************************

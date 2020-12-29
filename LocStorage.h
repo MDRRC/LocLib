@@ -68,6 +68,16 @@ public:
     bool PulseSwitchInvertGet();
 
     /**
+     * Get the auto off handling for turnouts.
+     */
+    bool AutoOffGet();
+
+    /**
+     * Set or reset turnout auto off command handling.
+     */
+    void AutoOffSet(uint8_t AutoOff);
+
+    /**
      * Get number of stored locomotives.
      */
     uint8_t NumberOfLocsGet();
