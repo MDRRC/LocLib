@@ -249,7 +249,7 @@ bool LocStorage::AutoOffGet()
     bool Result = false;
     uint8_t AutoOff;
 #if APP_CFG_UC == APP_CFG_UC_STM32
-    Invert = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress));
+    AutoOff = (uint8_t)(i2c_eeprom_read_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
     AutoOff = EEPROM.read(EepCfg::AutoOffAddress);
 #endif
@@ -272,7 +272,7 @@ bool LocStorage::AutoOffGet()
 void LocStorage::AutoOffSet(uint8_t AutoOff)
 {
 #if APP_CFG_UC == APP_CFG_UC_STM32
-    i2c_eeprom_write_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress, (byte)(Invert));
+    i2c_eeprom_write_byte(I2CAddressAT24C256, EepCfg::AutoOffAddress, (byte)(AutoOff));
 #elif APP_CFG_UC == APP_CFG_UC_ESP8266
     EEPROM.write(EepCfg::AutoOffAddress, AutoOff);
     EEPROM.commit();
